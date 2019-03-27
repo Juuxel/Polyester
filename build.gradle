@@ -1,0 +1,63 @@
+plugins {
+    id 'fabric-loom' version '0.2.0-SNAPSHOT'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.21'
+    id 'maven-publish'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+archivesBaseName = "Polyester"
+version = "0.1.0"
+
+repositories {
+    mavenCentral()
+}
+
+minecraft {
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:19w12b"
+    mappings "net.fabricmc:yarn:19w12b.3"
+    modCompile "net.fabricmc:fabric-loader:0.3.7.109"
+
+    // Fabric API. This is technically optional, but you probably want it anyway.
+    modCompile "net.fabricmc:fabric:0.2.5.114"
+    api "net.fabricmc:fabric-language-kotlin:1.3.21-SNAPSHOT"
+}
+
+// Modified from the Cotton buildscript (https://github.com/CottonMC/Cotton-ECS)
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            artifactId = archivesBaseName
+
+            pom.withXml {
+                def pomFile = asNode()
+                def depsNode = pomFile.get("dependencies")
+                pomFile.remove(depsNode)
+
+                def newDeps = pomFile.appendNode("dependencies")
+                configurations.modCompile.getResolvedConfiguration().getFirstLevelModuleDependencies().each {
+                    def artifactNode = newDeps.appendNode("dependency")
+                    artifactNode.appendNode('groupId', it.moduleGroup)
+                    artifactNode.appendNode('artifactId', it.moduleName)
+                    artifactNode.appendNode('version', it.moduleVersion)
+                }
+            }
+            artifacts = [
+                    artifact ("${project.buildDir.absolutePath}/libs/${archivesBaseName}-${project.version}.jar") { //release jar - file location not provided anywhere in loom
+                        classifier null
+                        builtBy remapJar
+                    }/*,
+                    artifact ("${project.buildDir.absolutePath}/libs/${archivesBaseName}-${project.version}.jar") { //release jar - file location not provided anywhere in loom
+                        classifier "dev"
+                        builtBy remapJar
+                    },
+                    artifact (tasks.sourcesJar)*/
+            ]
+        }
+    }
+}

@@ -1,0 +1,14 @@
+{
+  "id": "polyester",
+  "name": "Polyester",
+  "description": "A library mod.",
+  "version": "0.1.0",
+  "side": "universal",
+  "initializers": ["io.github.juuxel.polyester.Polyester"],
+  "requires": {
+    "fabric-language-kotlin": "*"
+  },
+  "mixins": {
+  },
+  "languageAdapter": "net.fabricmc.language.kotlin.KotlinLanguageAdapter"
+}
