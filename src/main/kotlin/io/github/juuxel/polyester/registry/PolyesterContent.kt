@@ -9,6 +9,7 @@ package io.github.juuxel.polyester.registry
 import net.minecraft.block.Block
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.item.Item
+import net.minecraft.item.ItemProvider
 
 interface PolyesterContent<out T> {
     val name: String
@@ -25,4 +26,8 @@ interface BlockLikeContent<out T> : PolyesterContent<T> {
 
 interface PolyesterBlock : BlockLikeContent<Block> {
     val blockEntityType: BlockEntityType<*>? get() = null
+}
+
+interface PolyesterItem : PolyesterContent<Item>, ItemProvider {
+    override fun getItem() = unwrap()
 }

@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 
 abstract class PolyesterRegistry(private val namespace: String) {
-    protected fun <R> register(registry: Registry<R>, content: PolyesterContent<R>): PolyesterContent<R> {
+    protected fun <R, C : PolyesterContent<R>> register(registry: Registry<in R>, content: C): C {
         Registry.register(
             registry,
             Identifier(namespace, content.name),
@@ -53,6 +53,9 @@ abstract class PolyesterRegistry(private val namespace: String) {
         return register(Registry.RECIPE_TYPE, object : RecipeType<R>, PolyesterContent<RecipeType<R>> {
             override val name = name
             override fun toString() = name
-        }).unwrap() as RecipeType<R>
+        })
     }
+
+    protected fun <T : PolyesterItem> registerItem(content: T): T =
+        register(Registry.ITEM, content)
 }
