@@ -6,7 +6,7 @@
 
 package io.github.juuxel.polyester.registry
 
-import net.minecraft.item.block.BlockItem
+import net.minecraft.item.BlockItem
 import net.minecraft.recipe.Recipe
 import net.minecraft.recipe.RecipeType
 import net.minecraft.util.Identifier

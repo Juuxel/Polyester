@@ -1,6 +1,6 @@
 plugins {
-    id 'fabric-loom' version '0.2.0-SNAPSHOT'
-    id 'org.jetbrains.kotlin.jvm' version '1.3.21'
+    id 'fabric-loom' version '0.2.1-SNAPSHOT'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.30'
     id 'maven-publish'
 }
 
@@ -8,7 +8,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 archivesBaseName = "Polyester"
-version = "0.1.0"
+version = project.mod_version
 
 repositories {
     mavenCentral()
@@ -18,13 +18,20 @@ minecraft {
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:19w12b"
-    mappings "net.fabricmc:yarn:19w12b.3"
-    modCompile "net.fabricmc:fabric-loader:0.3.7.109"
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}"
+    modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
 
     // Fabric API. This is technically optional, but you probably want it anyway.
-    modCompile "net.fabricmc:fabric:0.2.5.114"
-    api "net.fabricmc:fabric-language-kotlin:1.3.21-SNAPSHOT"
+    modCompile "net.fabricmc:fabric:${project.fabric_version}"
+    modCompile "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
+    api "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
+}
+
+processResources {
+    filesMatching("fabric.mod.json") {
+        expand "version": project.short_version
+    }
 }
 
 // Modified from the Cotton buildscript (https://github.com/CottonMC/Cotton-ECS)
