@@ -1,9 +1,3 @@
-/*
-  This Source Code Form is subject to the terms of the Mozilla Public
-  License, v. 2.0. If a copy of the MPL was not distributed with this
-  file, You can obtain one at http://mozilla.org/MPL/2.0/.
- */
-
 package io.github.juuxel.polyester.registry
 
 import net.minecraft.block.Block
@@ -20,6 +14,7 @@ interface PolyesterContent<out T> {
 
 interface BlockLikeContent<out T> : PolyesterContent<T> {
     val hasDescription: Boolean get() = false
+    // TODO: Figure out what to do with descriptionKey
     val descriptionKey: String get() = "%TranslationKey.desc"
     val itemSettings: Item.Settings?
 }

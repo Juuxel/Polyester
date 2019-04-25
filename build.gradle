@@ -25,7 +25,7 @@ dependencies {
     // Fabric API. This is technically optional, but you probably want it anyway.
     modCompile "net.fabricmc:fabric:${project.fabric_version}"
     modCompile "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
-    api "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
+    compileOnly "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
 }
 
 processResources {
