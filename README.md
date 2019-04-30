@@ -14,9 +14,15 @@ A library mod for my mods. • [Downloads](https://github.com/Juuxel/Polyester/r
 - Plugin API
   - Wood types
 
-### Plugins
+### Making plugins
 
 Polyester plugins are classes that implement the `PolyesterPlugin` interface.
 Currently, they're only used for wood types.
 
 Register them as entrypoints in your `fabric.mod.json` with the entrypoint type `polyester`.
+
+See an example here: [`PolyesterVanillaPlugin`](src/main/kotlin/io/github/juuxel/polyester/plugin/impl/PolyesterVanillaPlugin.kt)
+
+### Using plugins
+
+A list of all Polyester plugins can be retrieved with `PolyesterPluginManagers.plugins`.
