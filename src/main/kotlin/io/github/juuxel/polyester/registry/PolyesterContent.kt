@@ -4,6 +4,9 @@ import net.minecraft.block.Block
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.item.Item
 import net.minecraft.item.ItemProvider
+import net.minecraft.text.TextComponent
+import net.minecraft.text.TextFormat
+import net.minecraft.text.TranslatableTextComponent
 
 interface PolyesterContent<out T> {
     val name: String
@@ -12,10 +15,12 @@ interface PolyesterContent<out T> {
     fun unwrap(): T = this as T
 }
 
-interface BlockLikeContent<out T> : PolyesterContent<T> {
+interface HasDescription {
     val hasDescription: Boolean get() = false
-    // TODO: Figure out what to do with descriptionKey
     val descriptionKey: String get() = "%TranslationKey.desc"
+}
+
+interface BlockLikeContent<out T> : PolyesterContent<T>, HasDescription {
     val itemSettings: Item.Settings?
 }
 
@@ -23,6 +28,22 @@ interface PolyesterBlock : BlockLikeContent<Block> {
     val blockEntityType: BlockEntityType<*>? get() = null
 }
 
-interface PolyesterItem : PolyesterContent<Item>, ItemProvider {
-    override fun getItem() = unwrap()
+interface PolyesterItem : PolyesterContent<Item>, HasDescription {
+    companion object {
+        fun appendTooltipToList(list: MutableList<TextComponent>, content: PolyesterItem) = with(content) {
+            if (hasDescription) {
+                list.add(
+                    TranslatableTextComponent(
+                        descriptionKey.replace(
+                            "%TranslationKey",
+                            unwrap().translationKey
+                        )
+                    ).modifyStyle {
+                        it.isItalic = true
+                        it.color = TextFormat.DARK_GRAY
+                    }
+                )
+            }
+        }
+    }
 }

@@ -1,10 +1,16 @@
 package io.github.juuxel.polyester.registry
 
+import net.minecraft.client.item.TooltipContext
 import net.minecraft.item.BlockItem
+import net.minecraft.item.ItemStack
 import net.minecraft.recipe.Recipe
 import net.minecraft.recipe.RecipeType
+import net.minecraft.text.TextComponent
+import net.minecraft.text.TextFormat
+import net.minecraft.text.TranslatableTextComponent
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
+import net.minecraft.world.World
 
 abstract class PolyesterRegistry(private val namespace: String) {
     protected fun <R, C : PolyesterContent<R>> register(registry: Registry<in R>, content: C): C {
@@ -31,14 +37,28 @@ abstract class PolyesterRegistry(private val namespace: String) {
             Registry.register(
                 Registry.ITEM,
                 Identifier(namespace, content.name),
-                BlockItem(content.unwrap(), content.itemSettings)
+                object : BlockItem(content.unwrap(), content.itemSettings), PolyesterItem {
+                    override val name = content.name
+
+                    override fun buildTooltip(
+                        stack: ItemStack?,
+                        world: World?,
+                        list: MutableList<TextComponent>,
+                        context: TooltipContext?
+                    ) {
+                        super.buildTooltip(stack, world, list, context)
+                        PolyesterItem.appendTooltipToList(list, this)
+                    }
+                }
             )
-        if (content.blockEntityType != null)
+
+        if (content.blockEntityType != null) {
             Registry.register(
                 Registry.BLOCK_ENTITY,
                 Identifier(namespace, content.name),
                 content.blockEntityType
             )
+        }
 
         return content
     }
