@@ -11,3 +11,12 @@ A library mod for my mods. • [Downloads](https://github.com/Juuxel/Polyester/r
 - Registry helpers: `PolyesterRegistry` and `PolyesterContent`
   - Allows defining identifiers, block item settings etc. in the content classes
 - `PropertyDelegate` implementations
+- Plugin API
+  - Wood types
+
+### Plugins
+
+Polyester plugins are classes that implement the `PolyesterPlugin` interface.
+Currently, they're only used for wood types.
+
+Register them as entrypoints in your `fabric.mod.json` with the entrypoint type `polyester`.
