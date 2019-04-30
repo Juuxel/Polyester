@@ -7,14 +7,30 @@
   "description": "A library mod for Juuz's mods.",
   "authors": ["Juuz"],
   "license": "MIT",
+  "icon": "icon.png",
   "contact": {
     "homepage": "https://minecraft.curseforge.com/projects/polyester",
     "sources": "https://github.com/Juuxel/Polyester",
     "issues": "https://github.com/Juuxel/Polyester/issues"
   },
 
+  "entrypoints": {
+    "main": [
+      {
+        "value": "io.github.juuxel.polyester.Polyester",
+        "adapter": "kotlin"
+      }
+    ],
+    "polyester": [
+      {
+        "value": "io.github.juuxel.polyester.plugin.impl.PolyesterVanillaPlugin",
+        "adapter": "kotlin"
+      }
+    ]
+  },
+
   "requires": {
-    "fabric": [">=0.2.0", ">=0.3.0-pre"],
+    "fabric": ">=0.2.7",
     "fabricloader": ">=0.4.0",
     "fabric-language-kotlin": ">=1.3.30"
   }

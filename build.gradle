@@ -28,6 +28,12 @@ dependencies {
     compileOnly "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
 }
 
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
 processResources {
     filesMatching("fabric.mod.json") {
         expand "version": project.version
