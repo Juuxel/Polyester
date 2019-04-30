@@ -37,7 +37,7 @@ abstract class PolyesterRegistry(private val namespace: String) {
             Registry.register(
                 Registry.ITEM,
                 Identifier(namespace, content.name),
-                object : BlockItem(content.unwrap(), content.itemSettings), PolyesterItem {
+                object : BlockItem(content.unwrap(), content.itemSettings), PolyesterItem, HasDescription by content {
                     override val name = content.name
 
                     override fun buildTooltip(
