@@ -6,6 +6,8 @@
 
 A library mod for my mods. • [Downloads](https://github.com/Juuxel/Polyester/releases) • [CurseForge](https://minecraft.curseforge.com/projects/polyester)
 
+<p>&nbsp;</p>
+
 ## Contents
 
 - Registry helpers: `PolyesterRegistry` and `PolyesterContent`
