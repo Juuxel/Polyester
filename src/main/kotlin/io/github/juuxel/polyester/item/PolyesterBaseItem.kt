@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.text.TextComponent
 import net.minecraft.world.World
 
-abstract class PolyesterBaseItem(settings: Settings) : Item(settings), PolyesterItem {
+open class PolyesterBaseItem(override val name: String, settings: Settings) : Item(settings), PolyesterItem {
     override fun buildTooltip(
         stack: ItemStack?,
         world: World?,
