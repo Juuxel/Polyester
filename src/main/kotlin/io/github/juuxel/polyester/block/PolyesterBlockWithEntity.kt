@@ -11,6 +11,6 @@ import net.minecraft.world.BlockView
 abstract class PolyesterBlockWithEntity(settings: Block.Settings) : BlockWithEntity(settings), PolyesterBlock {
     abstract override val blockEntityType: BlockEntityType<*>
 
-    override fun getRenderType(state: BlockState?) = BlockRenderType.MODEL
-    final override fun createBlockEntity(view: BlockView?) = blockEntityType.instantiate()
+    override fun getRenderType(state: BlockState) = BlockRenderType.MODEL
+    override fun createBlockEntity(view: BlockView) = blockEntityType.instantiate()
 }

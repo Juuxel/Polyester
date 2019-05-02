@@ -8,6 +8,7 @@ object Polyester : ModInitializer {
     private val LOGGER = LogManager.getLogger()
 
     override fun onInitialize() {
+        // TODO: Remove in 0.3.0
         val woodTypesWithPlugins = PolyesterPluginManager.plugins.flatMap { it.woodTypes.map { woodType -> it to woodType } }
 
         for ((_, woodType) in woodTypesWithPlugins) {
