@@ -5,12 +5,7 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.BlockState
 import net.minecraft.block.BlockWithEntity
-import net.minecraft.block.entity.BlockEntityType
-import net.minecraft.world.BlockView
 
-abstract class PolyesterBlockWithEntity(settings: Block.Settings) : BlockWithEntity(settings), PolyesterBlock {
-    abstract override val blockEntityType: BlockEntityType<*>
-
+abstract class PolyesterBlockWithEntity(settings: Block.Settings) : BlockWithEntity(settings), PolyesterBlock, BlockEntityProviderImpl {
     override fun getRenderType(state: BlockState) = BlockRenderType.MODEL
-    override fun createBlockEntity(view: BlockView) = blockEntityType.instantiate()
 }

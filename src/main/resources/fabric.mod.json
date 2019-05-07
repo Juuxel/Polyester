@@ -14,21 +14,6 @@
     "issues": "https://github.com/Juuxel/Polyester/issues"
   },
 
-  "entrypoints": {
-    "main": [
-      {
-        "value": "io.github.juuxel.polyester.Polyester",
-        "adapter": "kotlin"
-      }
-    ],
-    "polyester": [
-      {
-        "value": "io.github.juuxel.polyester.plugin.impl.PolyesterVanillaPlugin",
-        "adapter": "kotlin"
-      }
-    ]
-  },
-
   "requires": {
     "fabric": ">=0.2.7",
     "fabricloader": ">=0.4.0",

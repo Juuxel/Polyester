@@ -1,12 +1,11 @@
 package io.github.juuxel.polyester.registry
 
+import net.minecraft.ChatFormat
 import net.minecraft.block.Block
 import net.minecraft.block.entity.BlockEntityType
 import net.minecraft.item.Item
-import net.minecraft.item.ItemProvider
-import net.minecraft.text.TextComponent
-import net.minecraft.text.TextFormat
-import net.minecraft.text.TranslatableTextComponent
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.TranslatableComponent
 
 interface PolyesterContent<out T> {
     val name: String
@@ -30,17 +29,17 @@ interface PolyesterBlock : BlockLikeContent<Block> {
 
 interface PolyesterItem : PolyesterContent<Item>, HasDescription {
     companion object {
-        fun appendTooltipToList(list: MutableList<TextComponent>, content: PolyesterItem) = with(content) {
+        fun appendTooltipToList(list: MutableList<Component>, content: PolyesterItem) = with(content) {
             if (hasDescription) {
                 list.add(
-                    TranslatableTextComponent(
+                    TranslatableComponent(
                         descriptionKey.replace(
                             "%TranslationKey",
                             unwrap().translationKey
                         )
                     ).modifyStyle {
                         it.isItalic = true
-                        it.color = TextFormat.DARK_GRAY
+                        it.color = ChatFormat.DARK_GRAY
                     }
                 )
             }

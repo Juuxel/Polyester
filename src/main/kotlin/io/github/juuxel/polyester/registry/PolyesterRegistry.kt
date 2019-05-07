@@ -1,28 +1,27 @@
 package io.github.juuxel.polyester.registry
 
+import io.github.juuxel.polyester.block.PolyesterBlockEntityType
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemStack
+import net.minecraft.network.chat.Component
 import net.minecraft.recipe.Recipe
 import net.minecraft.recipe.RecipeType
-import net.minecraft.text.TextComponent
-import net.minecraft.text.TextFormat
-import net.minecraft.text.TranslatableTextComponent
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
 
 abstract class PolyesterRegistry(private val namespace: String) {
     protected fun <R, C : PolyesterContent<R>> register(registry: Registry<in R>, content: C): C {
-        Registry.register(
+        register(
             registry,
-            Identifier(namespace, content.name),
+            content.name,
             content.unwrap()
         )
         return content
     }
 
-    protected fun <R> register(registry: Registry<R>, name: String, content: R): R {
+    protected fun <R> register(registry: Registry<in R>, name: String, content: R): R {
         return Registry.register(
             registry,
             Identifier(namespace, name),
@@ -34,16 +33,16 @@ abstract class PolyesterRegistry(private val namespace: String) {
         register(Registry.BLOCK, content)
 
         if (content.itemSettings != null)
-            Registry.register(
+            register(
                 Registry.ITEM,
-                Identifier(namespace, content.name),
+                content.name,
                 object : BlockItem(content.unwrap(), content.itemSettings), PolyesterItem, HasDescription by content {
                     override val name = content.name
 
                     override fun buildTooltip(
                         stack: ItemStack?,
                         world: World?,
-                        list: MutableList<TextComponent>,
+                        list: MutableList<Component>,
                         context: TooltipContext?
                     ) {
                         super.buildTooltip(stack, world, list, context)
@@ -52,12 +51,20 @@ abstract class PolyesterRegistry(private val namespace: String) {
                 }
             )
 
-        if (content.blockEntityType != null) {
-            Registry.register(
-                Registry.BLOCK_ENTITY,
-                Identifier(namespace, content.name),
-                content.blockEntityType
-            )
+        val blockEntityType = content.blockEntityType
+
+        if (blockEntityType != null) {
+            if (!Registry.BLOCK_ENTITY.contains(blockEntityType)) {
+                register(
+                    Registry.BLOCK_ENTITY,
+                    content.name,
+                    blockEntityType
+                )
+            }
+
+            if (blockEntityType is PolyesterBlockEntityType<*>) {
+                blockEntityType.addBlock(content.unwrap())
+            }
         }
 
         return content

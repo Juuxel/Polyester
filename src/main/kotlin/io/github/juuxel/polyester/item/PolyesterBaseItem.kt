@@ -4,14 +4,14 @@ import io.github.juuxel.polyester.registry.PolyesterItem
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.text.TextComponent
+import net.minecraft.network.chat.Component
 import net.minecraft.world.World
 
 open class PolyesterBaseItem(override val name: String, settings: Settings) : Item(settings), PolyesterItem {
     override fun buildTooltip(
         stack: ItemStack?,
         world: World?,
-        list: MutableList<TextComponent>,
+        list: MutableList<Component>,
         context: TooltipContext?
     ) {
         super.buildTooltip(stack, world, list, context)
