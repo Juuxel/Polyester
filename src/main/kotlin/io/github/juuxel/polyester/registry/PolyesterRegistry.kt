@@ -1,6 +1,8 @@
 package io.github.juuxel.polyester.registry
 
+import io.github.juuxel.polyester.block.PolyesterBlock
 import io.github.juuxel.polyester.block.PolyesterBlockEntityType
+import io.github.juuxel.polyester.item.PolyesterItem
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemStack

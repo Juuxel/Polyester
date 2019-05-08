@@ -1,11 +1,7 @@
 package io.github.juuxel.polyester.registry
 
-import net.minecraft.ChatFormat
-import net.minecraft.block.Block
-import net.minecraft.block.entity.BlockEntityType
-import net.minecraft.item.Item
-import net.minecraft.network.chat.Component
-import net.minecraft.network.chat.TranslatableComponent
+import io.github.juuxel.polyester.block.PolyesterBlock
+import io.github.juuxel.polyester.item.PolyesterItem
 
 interface PolyesterContent<out T> {
     val name: String
@@ -19,30 +15,8 @@ interface HasDescription {
     val descriptionKey: String get() = "%TranslationKey.desc"
 }
 
-interface BlockLikeContent<out T> : PolyesterContent<T>, HasDescription {
-    val itemSettings: Item.Settings?
-}
+@Deprecated("PolyesterBlock has been moved.", ReplaceWith("PolyesterBlock", imports = ["io.github.juuxel.polyester.block.PolyesterBlock"]))
+typealias PolyesterBlock = PolyesterBlock
 
-interface PolyesterBlock : BlockLikeContent<Block> {
-    val blockEntityType: BlockEntityType<*>? get() = null
-}
-
-interface PolyesterItem : PolyesterContent<Item>, HasDescription {
-    companion object {
-        fun appendTooltipToList(list: MutableList<Component>, content: PolyesterItem) = with(content) {
-            if (hasDescription) {
-                list.add(
-                    TranslatableComponent(
-                        descriptionKey.replace(
-                            "%TranslationKey",
-                            unwrap().translationKey
-                        )
-                    ).modifyStyle {
-                        it.isItalic = true
-                        it.color = ChatFormat.DARK_GRAY
-                    }
-                )
-            }
-        }
-    }
-}
+@Deprecated("PolyesterItem has been moved.", ReplaceWith("PolyesterItem", imports = ["io.github.juuxel.polyester.item.PolyesterItem"]))
+typealias PolyesterItem = PolyesterItem
