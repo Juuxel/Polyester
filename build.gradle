@@ -1,7 +1,8 @@
 plugins {
-    id 'fabric-loom' version '0.2.1-SNAPSHOT'
+    id 'fabric-loom' version '0.2.2-SNAPSHOT'
     id 'org.jetbrains.kotlin.jvm' version '1.3.30'
     id 'maven-publish'
+    id 'com.jfrog.artifactory' version '4.9.0'
 }
 
 sourceCompatibility = 1.8
@@ -9,7 +10,7 @@ targetCompatibility = 1.8
 
 group = "io.github.juuxel"
 archivesBaseName = "Polyester"
-version = project.mod_version
+version = project.mod_version + ((project.snapshot == "true") ? "-SNAPSHOT" : "")
 
 repositories {
     mavenCentral()
@@ -41,37 +42,57 @@ processResources {
     }
 }
 
-// Modified from the Cotton buildscript (https://github.com/CottonMC/Cotton-ECS)
+// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
+// if it is present.
+// If you remove this task, sources will not be generated.
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = "sources"
+    from sourceSets.main.allSource
+}
+
+if (rootProject.file("private.gradle").exists()) {
+    apply from: "private.gradle"
+}
+
+// Modified from the Cotton buildscript (https://github.com/CottonMC/cotton)
 publishing {
     publications {
         maven(MavenPublication) {
-            from components.java
-            artifactId = archivesBaseName
+            artifactId = archivesBaseName.toLowerCase(Locale.ROOT)
 
-            pom.withXml {
-                def pomFile = asNode()
-                def depsNode = pomFile.get("dependencies")
-                pomFile.remove(depsNode)
-
-                def newDeps = pomFile.appendNode("dependencies")
-                configurations.modCompile.getResolvedConfiguration().getFirstLevelModuleDependencies().each {
-                    def artifactNode = newDeps.appendNode("dependency")
-                    artifactNode.appendNode('groupId', it.moduleGroup)
-                    artifactNode.appendNode('artifactId', it.moduleName)
-                    artifactNode.appendNode('version', it.moduleVersion)
-                }
+            artifact ("${project.buildDir.absolutePath}/libs/${archivesBaseName}-${project.version}.jar") { //release jar - file location not provided anywhere in loom
+                classifier null
+                builtBy remapJar
             }
-            artifacts = [
-                    artifact ("${project.buildDir.absolutePath}/libs/${archivesBaseName}-${project.version}.jar") { //release jar - file location not provided anywhere in loom
-                        classifier null
-                        builtBy remapJar
-                    }/*,
-                    artifact ("${project.buildDir.absolutePath}/libs/${archivesBaseName}-${project.version}.jar") { //release jar - file location not provided anywhere in loom
-                        classifier "dev"
-                        builtBy remapJar
-                    },
-                    artifact (tasks.sourcesJar)*/
-            ]
+
+            artifact(sourcesJar) {
+                builtBy remapSourcesJar
+            }
         }
+    }
+}
+
+artifactory {
+    if (project.hasProperty("artifactoryUsername")) {
+        contextUrl = 'http://server.bbkr.space:8081/artifactory/'
+        publish {
+            repository {
+                if (version.contains("SNAPSHOT")) {
+                    repoKey = "libs-snapshot"
+                } else {
+                    repoKey = "libs-release"
+                }
+                username = artifactoryUsername
+                password = artifactoryPassword
+            }
+            defaults {
+                publications('maven')
+
+                publishArtifacts = true
+                publishPom = true
+            }
+        }
+    } else {
+        println "Cannot configure artifactory; please define ext.artifactoryUsername and ext.artifactoryPassword before running artifactoryPublish"
     }
 }
