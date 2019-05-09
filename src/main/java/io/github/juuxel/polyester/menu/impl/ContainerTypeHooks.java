@@ -1,11 +1,11 @@
 package io.github.juuxel.polyester.menu.impl;
 
-import io.github.juuxel.polyester.menu.MenuFactory;
+import io.github.juuxel.polyester.menu.ContainerFactory;
 
 /**
  * Internal Polyester interface!
  */
 public interface ContainerTypeHooks {
-    MenuFactory polyester_getFactory();
-    void polyester_setFactory(MenuFactory factory);
+    ContainerFactory polyester_getFactory();
+    void polyester_setFactory(ContainerFactory factory);
 }

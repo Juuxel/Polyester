@@ -12,6 +12,6 @@ import net.minecraft.network.chat.Component;
  * Mirrors {@code ContainerScreenRegistry.GuiFactory}.
  */
 @Environment(EnvType.CLIENT)
-public interface MenuScreenFactory<T extends Container, U extends Screen & ContainerProvider<T>> {
+public interface ContainerScreenFactory<T extends Container, U extends Screen & ContainerProvider<T>> {
     U create(T menu, PlayerInventory playerInventory, Component title);
 }

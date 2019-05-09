@@ -1,7 +1,7 @@
 package io.github.juuxel.polyester.mixin.client;
 
-import io.github.juuxel.polyester.menu.MenuScreenFactory;
-import io.github.juuxel.polyester.menu.PolyesterMenuRegistry;
+import io.github.juuxel.polyester.menu.ContainerScreenFactory;
+import io.github.juuxel.polyester.menu.PolyesterContainerRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.ContainerProvider;
 import net.minecraft.client.gui.ContainerScreenRegistry;
@@ -19,10 +19,10 @@ import java.util.Map;
 @Mixin(ContainerScreenRegistry.class)
 public class ContainerScreenRegistryMixin {
     @Inject(method = "openScreen", cancellable = true, at = @At(value = "INVOKE", ordinal = 1, shift = At.Shift.BEFORE, target = "Lorg/apache/logging/log4j/Logger;warn(Ljava/lang/String;Ljava/lang/Object;)V", remap = false))
-    private static <T extends Container> void onOpenScreen(ContainerType<T> menuType, MinecraftClient client, int syncId, Component title, CallbackInfo info) {
-        Map<ContainerType<?>, MenuScreenFactory<?, ?>> factories = PolyesterMenuRegistry.getScreenFactories();
-        if (factories.containsKey(menuType)) {
-            Screen screen = ((MenuScreenFactory<T, ?>) factories.get(menuType)).create(menuType.create(syncId, client.player.inventory), client.player.inventory, title);
+    private static <T extends Container> void onOpenScreen(ContainerType<T> containerType, MinecraftClient client, int syncId, Component title, CallbackInfo info) {
+        Map<ContainerType<?>, ContainerScreenFactory<?, ?>> factories = PolyesterContainerRegistry.getScreenFactories();
+        if (factories.containsKey(containerType)) {
+            Screen screen = ((ContainerScreenFactory<T, ?>) factories.get(containerType)).create(containerType.create(syncId, client.player.inventory), client.player.inventory, title);
             client.player.container = ((ContainerProvider<?>) screen).getContainer();
             client.openScreen(screen);
             info.cancel();
