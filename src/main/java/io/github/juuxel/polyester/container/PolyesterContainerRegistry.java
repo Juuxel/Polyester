@@ -18,6 +18,13 @@ public final class PolyesterContainerRegistry {
 
     private PolyesterContainerRegistry() {}
 
+    /**
+     * Creates a ContainerType instance using the {@code containerFactory}.
+     *
+     * @param containerFactory the {@link ContainerFactory} instance
+     * @param <T> the container type
+     * @return a ContainerType instance
+     */
     @SuppressWarnings("unchecked")
     public static <T extends Container> ContainerType<T> createContainerType(ContainerFactory<T> containerFactory) {
         try {
@@ -32,6 +39,15 @@ public final class PolyesterContainerRegistry {
         }
     }
 
+    /**
+     * Creates and registers a {@code ContainerType}.
+     *
+     * @param id the registry ID
+     * @param containerFactory the container factory
+     * @param <T> the container type
+     * @return an ContainerType instance
+     * @see #createContainerType(ContainerFactory)
+     */
     public static <T extends Container> ContainerType<T> registerContainer(Identifier id, ContainerFactory<T> containerFactory) {
         return Registry.register(Registry.CONTAINER, id, createContainerType(containerFactory));
     }

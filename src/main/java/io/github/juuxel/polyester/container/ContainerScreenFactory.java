@@ -9,7 +9,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.chat.Component;
 
 /**
- * Mirrors {@code ContainerScreenRegistry.GuiFactory}.
+ * Mirrors {@code ContainerScreenRegistry.GuiFactory}. Used to creates {@code Screen} instances for containers.
  */
 @Environment(EnvType.CLIENT)
 public interface ContainerScreenFactory<T extends Container, U extends Screen & ContainerProvider<T>> {

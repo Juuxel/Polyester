@@ -4,7 +4,7 @@ import net.minecraft.container.Container;
 import net.minecraft.entity.player.PlayerInventory;
 
 /**
- * Mirrors {@code ContainerType.Factory}.
+ * Mirrors {@code ContainerType.Factory}. Used to create {@code Container} instances on the client.
  */
 @FunctionalInterface
 public interface ContainerFactory<T extends Container> {
