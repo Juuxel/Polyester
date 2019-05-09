@@ -18,11 +18,12 @@ import java.util.Map;
 
 @Mixin(ContainerScreenRegistry.class)
 public class ContainerScreenRegistryMixin {
+    @SuppressWarnings("unchecked")
     @Inject(method = "openScreen", cancellable = true, at = @At(value = "INVOKE", ordinal = 1, shift = At.Shift.BEFORE, target = "Lorg/apache/logging/log4j/Logger;warn(Ljava/lang/String;Ljava/lang/Object;)V", remap = false))
     private static <T extends Container> void onOpenScreen(ContainerType<T> containerType, MinecraftClient client, int syncId, Component title, CallbackInfo info) {
         Map<ContainerType<?>, ContainerScreenFactory<?, ?>> factories = PolyesterContainerRegistry.getScreenFactories();
         if (factories.containsKey(containerType)) {
-            Screen screen = ((ContainerScreenFactory<T, ?>) factories.get(containerType)).create(containerType.create(syncId, client.player.inventory), client.player.inventory, title);
+            Screen screen = ((ContainerScreenFactory<? super T, ?>) factories.get(containerType)).create(containerType.create(syncId, client.player.inventory), client.player.inventory, title);
             client.player.container = ((ContainerProvider<?>) screen).getContainer();
             client.openScreen(screen);
             info.cancel();

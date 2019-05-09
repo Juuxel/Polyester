@@ -18,6 +18,7 @@ public final class PolyesterContainerRegistry {
 
     private PolyesterContainerRegistry() {}
 
+    @SuppressWarnings("unchecked")
     public static <T extends Container> ContainerType<T> createContainerType(ContainerFactory<T> containerFactory) {
         try {
             Constructor<?> constructor = ContainerType.class.getDeclaredConstructors()[0];
@@ -35,9 +36,9 @@ public final class PolyesterContainerRegistry {
         return Registry.register(Registry.CONTAINER, id, createContainerType(containerFactory));
     }
 
-    public static <M extends Container, U extends Screen & ContainerProvider<M>> void registerScreen(
-            ContainerType<M> containerType,
-            ContainerScreenFactory<M, U> screenFactory
+    public static <C extends Container, U extends Screen & ContainerProvider<C>> void registerScreen(
+            ContainerType<? extends C> containerType,
+            ContainerScreenFactory<? super C, U> screenFactory
     ) {
         if (SCREEN_FACTORIES.put(containerType, screenFactory) != null) {
             throw new IllegalStateException("Duplicate registration for " + Registry.CONTAINER.getId(containerType));

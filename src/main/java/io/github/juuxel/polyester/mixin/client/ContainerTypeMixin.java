@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ContainerType.class)
 public abstract class ContainerTypeMixin<T extends Container> implements ContainerTypeHooks {
+    @SuppressWarnings("unchecked")
     @Inject(method = "create", at = @At("HEAD"), cancellable = true)
     private void onCreate(int syncId, PlayerInventory playerInventory, CallbackInfoReturnable<T> info) {
         if (polyester_getFactory() != null) {
