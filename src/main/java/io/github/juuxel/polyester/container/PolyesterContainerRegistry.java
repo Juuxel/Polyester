@@ -1,7 +1,7 @@
-package io.github.juuxel.polyester.menu;
+package io.github.juuxel.polyester.container;
 
 import com.google.common.collect.ImmutableMap;
-import io.github.juuxel.polyester.menu.impl.ContainerTypeHooks;
+import io.github.juuxel.polyester.container.impl.ContainerTypeHooks;
 import net.minecraft.client.gui.ContainerProvider;
 import net.minecraft.client.gui.Screen;
 import net.minecraft.container.Container;

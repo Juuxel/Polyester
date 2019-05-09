@@ -1,7 +1,7 @@
 package io.github.juuxel.polyester.mixin.client;
 
-import io.github.juuxel.polyester.menu.ContainerScreenFactory;
-import io.github.juuxel.polyester.menu.PolyesterContainerRegistry;
+import io.github.juuxel.polyester.container.ContainerScreenFactory;
+import io.github.juuxel.polyester.container.PolyesterContainerRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.ContainerProvider;
 import net.minecraft.client.gui.ContainerScreenRegistry;

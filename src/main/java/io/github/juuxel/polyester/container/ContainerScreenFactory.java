@@ -1,4 +1,4 @@
-package io.github.juuxel.polyester.menu;
+package io.github.juuxel.polyester.container;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

@@ -1,4 +1,4 @@
-package io.github.juuxel.polyester.menu;
+package io.github.juuxel.polyester.container;
 
 import net.minecraft.container.Container;
 import net.minecraft.entity.player.PlayerInventory;

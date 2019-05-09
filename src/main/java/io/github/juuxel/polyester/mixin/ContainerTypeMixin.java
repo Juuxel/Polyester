@@ -1,7 +1,7 @@
 package io.github.juuxel.polyester.mixin;
 
-import io.github.juuxel.polyester.menu.ContainerFactory;
-import io.github.juuxel.polyester.menu.impl.ContainerTypeHooks;
+import io.github.juuxel.polyester.container.ContainerFactory;
+import io.github.juuxel.polyester.container.impl.ContainerTypeHooks;
 import net.minecraft.container.ContainerType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

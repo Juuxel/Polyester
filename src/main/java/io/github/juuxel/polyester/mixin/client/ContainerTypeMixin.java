@@ -1,6 +1,6 @@
 package io.github.juuxel.polyester.mixin.client;
 
-import io.github.juuxel.polyester.menu.impl.ContainerTypeHooks;
+import io.github.juuxel.polyester.container.impl.ContainerTypeHooks;
 import net.minecraft.container.Container;
 import net.minecraft.container.ContainerType;
 import net.minecraft.entity.player.PlayerInventory;

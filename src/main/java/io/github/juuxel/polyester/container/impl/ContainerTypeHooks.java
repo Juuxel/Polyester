@@ -1,6 +1,6 @@
-package io.github.juuxel.polyester.menu.impl;
+package io.github.juuxel.polyester.container.impl;
 
-import io.github.juuxel.polyester.menu.ContainerFactory;
+import io.github.juuxel.polyester.container.ContainerFactory;
 
 /**
  * Internal Polyester interface!
