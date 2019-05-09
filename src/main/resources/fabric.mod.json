@@ -14,6 +14,8 @@
     "issues": "https://github.com/Juuxel/Polyester/issues"
   },
 
+  "mixins": ["mixins.polyester.json"],
+
   "requires": {
     "fabric": ">=0.2.7",
     "fabricloader": ">=0.4.0",

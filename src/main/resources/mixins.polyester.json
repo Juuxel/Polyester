@@ -1,0 +1,18 @@
+{
+  "compatibilityLevel": "JAVA_8",
+  "minVersion": "0.7.11",
+  "package": "io.github.juuxel.polyester.mixin",
+  "required": true,
+
+  "mixins": [
+    "ContainerTypeMixin"
+  ],
+  "client": [
+    "client.ContainerTypeMixin",
+    "client.ContainerScreenRegistryMixin"
+  ],
+
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
