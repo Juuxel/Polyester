@@ -18,9 +18,13 @@ import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A registry for registering containers and screens.
+ */
 public final class PolyesterContainerRegistry {
     private static final Lazy<MethodHandle> CONTAINER_TYPE_CONSTRUCTOR = new Lazy<>(() -> {
         try {
+            // ContainerType only has a single constructor
             Constructor<?> constructor = ContainerType.class.getDeclaredConstructors()[0];
             constructor.setAccessible(true);
             return MethodHandles.lookup().unreflectConstructor(constructor);
