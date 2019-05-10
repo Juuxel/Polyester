@@ -7,6 +7,7 @@ import net.minecraft.client.gui.Screen;
 import net.minecraft.container.Container;
 import net.minecraft.container.ContainerType;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Lazy;
 import net.minecraft.util.registry.Registry;
 
 import java.lang.reflect.Constructor;
@@ -14,6 +15,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class PolyesterContainerRegistry {
+    private static final Lazy<Constructor<?>> CONTAINER_TYPE_CONSTRUCTOR = new Lazy<>(() -> {
+        Constructor<?> constructor = ContainerType.class.getDeclaredConstructors()[0];
+        constructor.setAccessible(true);
+        return constructor;
+    });
     private static final Map<ContainerType<?>, ContainerScreenFactory<?, ?>> SCREEN_FACTORIES = new HashMap<>();
 
     private PolyesterContainerRegistry() {}
@@ -28,8 +34,7 @@ public final class PolyesterContainerRegistry {
     @SuppressWarnings("unchecked")
     public static <T extends Container> ContainerType<T> createContainerType(ContainerFactory<T> containerFactory) {
         try {
-            Constructor<?> constructor = ContainerType.class.getDeclaredConstructors()[0];
-            constructor.setAccessible(true);
+            Constructor<?> constructor = CONTAINER_TYPE_CONSTRUCTOR.get();
             ContainerType<?> containerType = (ContainerType<?>) constructor.newInstance((Object) null);
             ContainerTypeHooks hooks = (ContainerTypeHooks) containerType;
             hooks.polyester_setFactory(containerFactory);
@@ -54,7 +59,7 @@ public final class PolyesterContainerRegistry {
 
     public static <C extends Container, U extends Screen & ContainerProvider<C>> void registerScreen(
             ContainerType<? extends C> containerType,
-            ContainerScreenFactory<? super C, U> screenFactory
+            ContainerScreenFactory<C, U> screenFactory
     ) {
         if (SCREEN_FACTORIES.put(containerType, screenFactory) != null) {
             throw new IllegalStateException("Duplicate registration for " + Registry.CONTAINER.getId(containerType));
