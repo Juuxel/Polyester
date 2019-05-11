@@ -51,8 +51,8 @@ public final class PolyesterContainerRegistry {
             ContainerTypeHooks hooks = (ContainerTypeHooks) containerType;
             hooks.polyester_setFactory(containerFactory);
             return (ContainerType<T>) containerType;
-        } catch (Throwable e) {
-            throw new RuntimeException("Container type creation failed", e);
+        } catch (Throwable t) {
+            throw new RuntimeException("Container type creation failed", t);
         }
     }
 
