@@ -1,7 +1,9 @@
-package io.github.juuxel.polyester.container;
+package io.github.juuxel.polyester.container.impl;
 
 import com.google.common.collect.ImmutableMap;
-import io.github.juuxel.polyester.container.impl.ContainerTypeHooks;
+import io.github.juuxel.polyester.container.ContainerFactory;
+import io.github.juuxel.polyester.container.ContainerRegistry;
+import io.github.juuxel.polyester.container.ContainerScreenFactory;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.ContainerProvider;
@@ -21,7 +23,9 @@ import java.util.Map;
 /**
  * A registry for registering containers and screens.
  */
-public final class PolyesterContainerRegistry {
+public enum ContainerRegistryImpl implements ContainerRegistry {
+    INSTANCE;
+
     private static final Lazy<MethodHandle> CONTAINER_TYPE_CONSTRUCTOR = new Lazy<>(() -> {
         try {
             // ContainerType only has a single constructor
@@ -32,9 +36,7 @@ public final class PolyesterContainerRegistry {
             throw new RuntimeException("Failed to find ContainerType constructor", e);
         }
     });
-    private static final Map<ContainerType<?>, ContainerScreenFactory<?, ?>> SCREEN_FACTORIES = new HashMap<>();
-
-    private PolyesterContainerRegistry() {}
+    private final Map<ContainerType<?>, ContainerScreenFactory<?, ?>> screenFactories = new HashMap<>();
 
     /**
      * Creates a ContainerType instance using the {@code containerFactory}.
@@ -44,7 +46,8 @@ public final class PolyesterContainerRegistry {
      * @return a ContainerType instance
      */
     @SuppressWarnings("unchecked")
-    public static <T extends Container> ContainerType<T> createContainerType(ContainerFactory<T> containerFactory) {
+    @Override
+    public <T extends Container> ContainerType<T> createContainerType(ContainerFactory<T> containerFactory) {
         try {
             MethodHandle constructor = CONTAINER_TYPE_CONSTRUCTOR.get();
             ContainerType<?> containerType = (ContainerType<?>) constructor.invoke((Object) null);
@@ -57,19 +60,6 @@ public final class PolyesterContainerRegistry {
     }
 
     /**
-     * Creates and registers a {@code ContainerType}.
-     *
-     * @param id the registry ID
-     * @param containerFactory the container factory
-     * @param <T> the container type
-     * @return a ContainerType instance
-     * @see #createContainerType(ContainerFactory)
-     */
-    public static <T extends Container> ContainerType<T> registerContainer(Identifier id, ContainerFactory<T> containerFactory) {
-        return Registry.register(Registry.CONTAINER, id, createContainerType(containerFactory));
-    }
-
-    /**
      * Registers a screen factory for a ContainerType.
      *
      * @param containerType the ContainerType
@@ -78,16 +68,17 @@ public final class PolyesterContainerRegistry {
      * @param <S> the screen type
      */
     @Environment(EnvType.CLIENT)
-    public static <C extends Container, S extends Screen & ContainerProvider<C>> void registerScreen(
+    @Override
+    public <C extends Container, S extends Screen & ContainerProvider<C>> void registerScreen(
             ContainerType<? extends C> containerType,
             ContainerScreenFactory<C, S> screenFactory
     ) {
-        if (SCREEN_FACTORIES.put(containerType, screenFactory) != null) {
+        if (screenFactories.put(containerType, screenFactory) != null) {
             throw new IllegalStateException("Duplicate registration for " + Registry.CONTAINER.getId(containerType));
         }
     }
 
-    public static ImmutableMap<ContainerType<?>, ContainerScreenFactory<?, ?>> getScreenFactories() {
-        return ImmutableMap.copyOf(SCREEN_FACTORIES);
+    public ImmutableMap<ContainerType<?>, ContainerScreenFactory<?, ?>> getScreenFactories() {
+        return ImmutableMap.copyOf(screenFactories);
     }
 }
