@@ -2,7 +2,7 @@
 
 # Polyester
 
-![](https://img.shields.io/github/license/Juuxel/Polyester.svg) ![](https://img.shields.io/github/release/Juuxel/Polyester.svg) ![](https://img.shields.io/badge/minecraft-1.14-blueviolet.svg)
+![](https://img.shields.io/github/license/Juuxel/Polyester.svg) ![](https://img.shields.io/github/release/Juuxel/Polyester.svg) ![](https://img.shields.io/badge/minecraft-1.14.1-blueviolet.svg)
 
 A library mod for my mods. • [Downloads](https://github.com/Juuxel/Polyester/releases) • [CurseForge](https://minecraft.curseforge.com/projects/polyester)
 
