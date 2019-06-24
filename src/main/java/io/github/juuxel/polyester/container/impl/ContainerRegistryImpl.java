@@ -6,11 +6,10 @@ import io.github.juuxel.polyester.container.ContainerRegistry;
 import io.github.juuxel.polyester.container.ContainerScreenFactory;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.ContainerProvider;
-import net.minecraft.client.gui.Screen;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.ingame.ContainerProvider;
 import net.minecraft.container.Container;
 import net.minecraft.container.ContainerType;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.Lazy;
 import net.minecraft.util.registry.Registry;
 

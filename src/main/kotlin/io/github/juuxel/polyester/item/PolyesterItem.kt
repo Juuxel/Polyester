@@ -2,25 +2,25 @@ package io.github.juuxel.polyester.item
 
 import io.github.juuxel.polyester.registry.HasDescription
 import io.github.juuxel.polyester.registry.PolyesterContent
-import net.minecraft.ChatFormat
 import net.minecraft.item.Item
-import net.minecraft.network.chat.Component
-import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.text.Text
+import net.minecraft.text.TranslatableText
+import net.minecraft.util.Formatting
 
 interface PolyesterItem : PolyesterContent<Item>,
     HasDescription {
     companion object {
-        fun appendTooltipToList(list: MutableList<Component>, content: PolyesterItem) = with(content) {
+        fun appendTooltipToList(list: MutableList<Text>, content: PolyesterItem) = with(content) {
             if (hasDescription) {
                 list.add(
-                    TranslatableComponent(
+                    TranslatableText(
                         descriptionKey.replace(
                             "%TranslationKey",
                             unwrap().translationKey
                         )
-                    ).modifyStyle {
+                    ).styled {
                         it.isItalic = true
-                        it.color = ChatFormat.DARK_GRAY
+                        it.color = Formatting.DARK_GRAY
                     }
                 )
             }

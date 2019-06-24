@@ -6,9 +6,9 @@ import io.github.juuxel.polyester.item.PolyesterItem
 import net.minecraft.client.item.TooltipContext
 import net.minecraft.item.BlockItem
 import net.minecraft.item.ItemStack
-import net.minecraft.network.chat.Component
 import net.minecraft.recipe.Recipe
 import net.minecraft.recipe.RecipeType
+import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
@@ -41,13 +41,13 @@ abstract class PolyesterRegistry(private val namespace: String) {
                 object : BlockItem(content.unwrap(), content.itemSettings), PolyesterItem, HasDescription by content {
                     override val name = content.name
 
-                    override fun buildTooltip(
+                    override fun appendTooltip(
                         stack: ItemStack?,
                         world: World?,
-                        list: MutableList<Component>,
+                        list: MutableList<Text>,
                         context: TooltipContext?
                     ) {
-                        super.buildTooltip(stack, world, list, context)
+                        super.appendTooltip(stack, world, list, context)
                         PolyesterItem.appendTooltipToList(list, this)
                     }
                 }
