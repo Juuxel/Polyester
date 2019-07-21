@@ -16,7 +16,7 @@
 
   "mixins": ["mixins.polyester.json"],
 
-  "requires": {
+  "depends": {
     "fabricloader": ">=0.4.7",
     "fabric": [">=0.3.0-pre", ">=0.3.0"],
     "fabric-language-kotlin": ">=1.3.30"
